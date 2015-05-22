@@ -1,4 +1,4 @@
-## C++
+# C++
 
 # Compiled Object files
 *.slo
@@ -30,7 +30,7 @@
 *.app
 
 
-## Code::Blocks  
+# Code::Blocks
 
-*.depend  
-*.layout 
+*.depend
+*.layout
