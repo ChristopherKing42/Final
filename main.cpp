@@ -28,7 +28,7 @@ void results();
 int main()
 {
     srand(time(0));
-    cout << "My name is Program for Arithmetic for Understanding and Learning, " << endl
+    cout << "My name is Program for Arithmetic for Understanding and Learning," << endl
          << "but you can call me Paul." << endl << endl;
     cout << "Which game will you play, little epsilon?" << endl;
     cout << "\tA) Magic Square (One Player, Addition)" << endl
