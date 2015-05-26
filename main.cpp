@@ -126,7 +126,8 @@ void subSquare()
     cout << "Better luck next time " << name[loser] << ". :(" << endl;
 }
 
-int winningWays[8][3] = {
+int winningWays[8][3] =
+{
     {0, 1, 2},
     {4, 5, 6},
     {7, 8, 9},
@@ -135,7 +136,7 @@ int winningWays[8][3] = {
     {2, 6, 9},
     {0, 5, 9},
     {7, 5, 2}
-                                    };
+};
 
 void magicSquare()
 {
