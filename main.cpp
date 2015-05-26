@@ -2,6 +2,7 @@
 #include <random>
 #include <ctime>
 #include <cmath>
+#include <iomanip>
 
 using namespace std;
 
@@ -138,6 +139,8 @@ int winningWays[8][3] =
     {7, 5, 2}
 };
 
+char choices[9] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J'};
+
 void magicSquare()
 {
     string name;
@@ -150,10 +153,53 @@ void magicSquare()
         level = getInt("What level will you play little epsilon? (1 or more) ");
     }
     while(level < 1);
-    int magic = 3 * randRange(5*level, 5*(level+1));
+    int magic = 3 * randRange(5*level, 5*(level+1)); //Random number from 15 * level to 15 * level + 15, that is divisible by 3
+    int width = ceil(log10(magic)); //Guaranteed to be at least as many as the digits in magic
     cout << magic << endl;
     int square[9] = {0};
-
+    while(true)
+    {
+        for (int i=0; i < 9; i++) //Display the Square Loop
+        {
+            cout << choices[i] << setw(width) << square[i];
+            if ((i+1)%3 == 0)
+            {
+                cout << endl;
+            }
+            else
+            {
+                cout << "|";
+            }
+        }
+        cout << name << ", which square would you like to change? (or Z to check if you are right) ";
+        string moves;
+        cin >> moves;
+        char movec = moves[0];
+        int counter;
+        for (counter=0; counter < 9; counter++)
+        {
+            if (choices[counter] == movec)
+            {
+                int n;
+                do{
+                    n = getInt("What would you like to change that box to? ");
+                    if (n < 0 || n > magic)
+                    {
+                        cout << "That can not possibly be right; try again." << endl;
+                    }
+                    else break;
+                }
+                while(true);
+                square[counter] = n;
+                break;
+            }
+        }
+        if (counter==9)
+        {
+            cout << "Code Here" << endl;
+            break;
+        }
+    }
 }
 
 int randRange(int min, int max)
