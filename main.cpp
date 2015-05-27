@@ -10,7 +10,7 @@ void subSquare();
 void magicSquare();
 void division();
 
-int randRange(int min, int max); // Random Integer x, such that
+int randRange(int min, int max); // Random Integer x, such that min <= x < max
 int getInt(string prompt); //Safely aquire int from stdin
 
 #ifdef Important Functions Below
@@ -30,13 +30,13 @@ int main()
     srand(time(0));
     cout << "My name is Program for Arithmetic for Understanding and Learning," << endl
          << "but you can call me Paul." << endl << endl;
-    char option;
+    char option; //Selection from main menu
     do
     {
         cout << "Which game will you play, little epsilon?" << endl;
         cout << "\tA) Magic Square (One Player, Addition)" << endl
              << "\tB) Subtract a Square (Two Player, Multiplicaton and Subtraction)" << endl
-             << "\tC) Max Division (One Players, Division)" << endl
+             << "\tC) Most Divisions (One Players, Division)" << endl
              << "\tD) Quit" << endl
              //<< "\tE) Summon Programmer" << endl
              ;
@@ -77,7 +77,7 @@ void subSquare()
          << "\tturns doing this. Whoever gets it to 0 will win!" << endl << endl
          << "\tDon't worry, I will walk you through the game, little epsilons." << endl << endl;
 
-    string name[2];
+    string name[2]; //Store the names in an array
     cin.ignore();
     cout << "First little epsilon, what is your name? ";
     getline(cin, name[0]);
@@ -89,8 +89,8 @@ void subSquare()
         level = getInt("Little epsilons, what difficulty will you play? (1 or more)(start with 1) ");
     }
     while(level < 1);
-    int total = randRange(pow(10, level-1), pow(10, level));
-    int turn = 0;
+    int total = randRange(pow(10, level-1), pow(10, level)); //level is number of digits
+    int turn = 0; //Index of name array, a.k.a., switches between 0 and 1
     while (total != 0)
     {
         cout << "The total is " << total << endl;
@@ -124,7 +124,7 @@ void subSquare()
             }
             while(true);
             cout << "Yes!" << endl;
-            int newTotal;
+            int newTotal; //Temporary total until user gets newTotal correct
             do
             {
                 cout << "And " << total << " - " << square << " is what?" << endl;
@@ -140,13 +140,13 @@ void subSquare()
         }
         turn = (turn + 1) % 2;
     }
-    int loser = turn; //Ha Ha, can't move loser
-    int winner = (loser + 1) % 2;
+    int loser = turn;
+    int winner = (loser + 1) % 2; //Other player
     cout << name[winner] << ", you have WON! Congratulations." << endl;
     cout << "Better luck next time " << name[loser] << ". :(" << endl;
 }
 
-int win[8][3] =
+int win[8][3] = //Rows, Columns, and Diagonals
 {
     {0, 1, 2},
     {3, 4, 5},
@@ -158,7 +158,7 @@ int win[8][3] =
     {6, 4, 2}
 };
 
-char choices[9] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J'};
+char choices[9] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J'}; //Indexed cell names
 
 void magicSquare()
 {
@@ -166,14 +166,14 @@ void magicSquare()
     cin.ignore();
     cout << "What is your name, little epsilon? ";
     getline(cin, name);
-    int level;
+    int level; //Determines size of magic constant
     do
     {
         level = getInt("What level will you play little epsilon? (1 or more) ");
     }
     while(level < 1);
     int magic = 3 * randRange(5*level, 5*(level+1)); //Random number from 15 * level to 15 * level + 15, that is divisible by 3
-    int width = ceil(log10(magic)); //Guaranteed to be at least as many as the digits in magic
+    int width = ceil(log10(magic)); //Guaranteed to be at least as many as the digits in magic, for formatting purposes
     cout << "In this game, you try and make the rows, columns, and diagonals add up to" << endl
          << "a special number called the magic constat. Also, you may not use the same" << endl
          << "number more than once. The magic constant for you is \"" << magic << ".\" Change the boxes" << endl
@@ -189,7 +189,7 @@ void magicSquare()
         for (int i=0; i < 9; i++) //Display the Square Loop
         {
             cout << choices[i] << setw(width) << square[i];
-            if ((i+1)%3 == 0)
+            if ((i+1)%3 == 0) //End of row
             {
                 cout << endl;
             }
@@ -210,7 +210,7 @@ void magicSquare()
                 do
                 {
                     n = getInt("What would you like to change that box to? ");
-                    if (n < 0 || n > magic)
+                    if (n < 0 || n > magic) //This also makes sure cells don't violate cell width
                     {
                         cout << "That can not possibly be right; try again." << endl;
                     }
@@ -275,7 +275,7 @@ void division()
     cin.ignore();
     cout << "What is your name, little epsilon? ";
     getline(cin, name);
-    int level;
+    int level; //Number of digits == level + 1
     do
     {
         level = getInt("What level will you play little epsilon? (1 or more) ");
@@ -313,7 +313,7 @@ void division()
             cout << "Try again." << endl;
             continue;
         }
-        int newTotal;
+        int newTotal; //temporary variable for the new total until user gets it right
         while(true)
         {
             cout << "Now, what is " << total << "/" << div << "?" << endl;
