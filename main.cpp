@@ -127,7 +127,7 @@ void subSquare()
     cout << "Better luck next time " << name[loser] << ". :(" << endl;
 }
 
-int winningWays[8][3] =
+int win[8][3] =
 {
     {0, 1, 2},
     {4, 5, 6},
@@ -175,13 +175,13 @@ void magicSquare()
         string moves;
         cin >> moves;
         char movec = moves[0];
-        int counter;
-        for (counter=0; counter < 9; counter++)
+        for (int i=0; i < 9; i++)
         {
-            if (choices[counter] == movec)
+            if (choices[i] == movec)
             {
                 int n;
-                do{
+                do
+                {
                     n = getInt("What would you like to change that box to? ");
                     if (n < 0 || n > magic)
                     {
@@ -190,11 +190,11 @@ void magicSquare()
                     else break;
                 }
                 while(true);
-                square[counter] = n;
+                square[i] = n;
                 break;
             }
         }
-        if (counter==9)
+        if (movec == 'Z')
         {
             bool dup = false;
             for (int i=0; i < 9; i++)
@@ -211,7 +211,16 @@ void magicSquare()
                 if (dup) break;
             }
             if (dup) continue;
-            break;
+            for (int i=0; i < 8; i++)
+            {
+                do
+                {
+                    cout << "What is " << square[win[i][0]] << " + " << square[win[i][1]] << " + " << square[win[i][2]] << "? ";
+                    int s = getInt();
+                    cout << s << endl;
+                }
+                while(true);
+            }
         }
     }
 }
