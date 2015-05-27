@@ -196,7 +196,21 @@ void magicSquare()
         }
         if (counter==9)
         {
-            cout << "Code Here" << endl;
+            bool dup = false;
+            for (int i=0; i < 9; i++)
+            {
+                for (int j=0; j < 9; j++)
+                {
+                    if (i != j && square[i] == square[j])
+                    {
+                        cout << "Sorry, but you have " << square[i] << " at least twice. All boxes must be unique." << endl;
+                        dup = true;
+                        break;
+                    }
+                }
+                if (dup) break;
+            }
+            if (dup) continue;
             break;
         }
     }
