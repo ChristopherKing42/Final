@@ -9,10 +9,9 @@ using namespace std;
 void subSquare();
 void magicSquare();
 void division();
-void summonProgrammer(); //Involves Magic
 
-int randRange(int min, int max);
-int getInt(string prompt);
+int randRange(int min, int max); // Random Integer x, such that
+int getInt(string prompt); //Safely aquire int from stdin
 
 #ifdef Important Functions Below
 void instruction();
@@ -31,17 +30,17 @@ int main()
     srand(time(0));
     cout << "My name is Program for Arithmetic for Understanding and Learning," << endl
          << "but you can call me Paul." << endl << endl;
-    char option = ' ';
-    while(option != 'D')
+    char option;
+    do
     {
         cout << "Which game will you play, little epsilon?" << endl;
         cout << "\tA) Magic Square (One Player, Addition)" << endl
              << "\tB) Subtract a Square (Two Player, Multiplicaton and Subtraction)" << endl
-             //<< "\tC) To be determined (Twoish Players, Division)" << endl
+             << "\tC) Max Division (One Players, Division)" << endl
              << "\tD) Quit" << endl
              //<< "\tE) Summon Programmer" << endl
              ;
-             string options;
+        string options;
         cin >> options;
         option = options[0];
         switch(option)
@@ -52,11 +51,15 @@ int main()
         case 'B':
             subSquare();
             break;
+        case 'C':
+            division();
+            break;
         case 'D':
-            cout << "Good bye";
+            cout << "Good bye" << endl;
             break;
         }
     }
+    while(option != 'D');
 }
 
 void subSquare()
@@ -172,16 +175,17 @@ void magicSquare()
     int magic = 3 * randRange(5*level, 5*(level+1)); //Random number from 15 * level to 15 * level + 15, that is divisible by 3
     int width = ceil(log10(magic)); //Guaranteed to be at least as many as the digits in magic
     cout << "In this game, you try and make the rows, columns, and diagonals add up to" << endl
-        << "a special number called the magic constat. Also, you may not use the same" << endl
-        << "number more than once. The magic constant for you is \"" << magic << ".\" Change the boxes" << endl
-        << "so that each row, column, and diagonal, add up to \"" << magic << ".\" It will then quiz you" << endl
-        << "to see if you are right. Answer the addition problems honestly." << endl
-        ;
+         << "a special number called the magic constat. Also, you may not use the same" << endl
+         << "number more than once. The magic constant for you is \"" << magic << ".\" Change the boxes" << endl
+         << "so that each row, column, and diagonal, add up to \"" << magic << ".\" It will then quiz you" << endl
+         << "to see if you are right. Answer the addition problems honestly." << endl
+         ;
     cout << endl << "Do not worry, little epsilon. I, paul, will walk you through it." << endl << endl;
 
     int square[9] = {0};
     while(true)
     {
+        cout << endl;
         for (int i=0; i < 9; i++) //Display the Square Loop
         {
             cout << choices[i] << setw(width) << square[i];
@@ -226,7 +230,8 @@ void magicSquare()
                 {
                     if (i != j && square[i] == square[j])
                     {
-                        cout << "Sorry, but you have " << square[i] << " at least twice. All boxes must be unique." << endl;
+                        cout << endl;
+                        cout << "Sorry, but you have " << square[i] << " at least twice. You must change them to be different." << endl;
                         dup = true;
                         break;
                     }
@@ -262,6 +267,68 @@ void magicSquare()
         }
     }
     cout << "Since these are all the magic constant, you have won " << name << "!" << endl;
+}
+
+void division()
+{
+    string name;
+    cin.ignore();
+    cout << "What is your name, little epsilon? ";
+    getline(cin, name);
+    int level;
+    do
+    {
+        level = getInt("What level will you play little epsilon? (1 or more) ");
+    }
+    while(level < 1);
+    int total = randRange(pow(10, level), pow(10, level+1));
+    cout << "Instructions here" << endl;
+    int score = 0;
+    while(total!=1)
+    {
+        cout << "Your score is " << score << "." << endl;
+        cout << "The total is " << total << "." << endl;
+        cout << "Pick a number that you can divide into " << total << "." << endl;
+        int div = getInt(name + ": ");
+        if (div == 0)
+        {
+            cout << "You can never divide by 0." << endl;
+            cout << "Try again." << endl;
+            continue;
+        }
+        if (div == 1)
+        {
+            cout << "1 is cheating." << endl;
+            cout << "Try again." << endl;
+        }
+        if (not (total % div == 0))
+        {
+            cout << div << " is not divisible by " << total << endl;
+            cout << "Try again." << endl;
+            continue;
+        }
+        if (div < 0)
+        {
+            cout << "Smart kid, but no negatives. Sorry." << endl;
+            cout << "Try again." << endl;
+            continue;
+        }
+        int newTotal;
+        while(true)
+        {
+            cout << "Now, what is " << total << "/" << div << "?" << endl;
+            newTotal = getInt(name + ": ");
+            if (newTotal != total / div)
+            {
+                cout << "That is wrong, try again." << endl;
+            }
+            else break;
+        }
+        total = newTotal;
+        score++;
+    }
+    cout << "That is it. Your score is " << score << "." << endl;
+    cout << "That is GREAT. Try to beat it, or have your friends try to beat it." << endl;
 }
 
 int randRange(int min, int max)
