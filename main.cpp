@@ -31,17 +31,32 @@ int main()
     srand(time(0));
     cout << "My name is Program for Arithmetic for Understanding and Learning," << endl
          << "but you can call me Paul." << endl << endl;
-    cout << "Which game will you play, little epsilon?" << endl;
-    cout << "\tA) Magic Square (One Player, Addition)" << endl
-         << "\tB) Subtract a Square (Two Player, Multiplicaton and Subtraction)" << endl
-         << "\tC) To be determined (Twoish Players, Division)" << endl
-         << "\tD) Quit" << endl
-         << "\tE) Summon Programmer" << endl;
-    while(true)
+    char option = ' ';
+    while(option != 'D')
     {
-        magicSquare();
+        cout << "Which game will you play, little epsilon?" << endl;
+        cout << "\tA) Magic Square (One Player, Addition)" << endl
+             << "\tB) Subtract a Square (Two Player, Multiplicaton and Subtraction)" << endl
+             //<< "\tC) To be determined (Twoish Players, Division)" << endl
+             << "\tD) Quit" << endl
+             //<< "\tE) Summon Programmer" << endl
+             ;
+             string options;
+        cin >> options;
+        option = options[0];
+        switch(option)
+        {
+        case 'A':
+            magicSquare();
+            break;
+        case 'B':
+            subSquare();
+            break;
+        case 'D':
+            cout << "Good bye";
+            break;
+        }
     }
-    return 0;
 }
 
 void subSquare()
@@ -60,6 +75,7 @@ void subSquare()
          << "\tDon't worry, I will walk you through the game, little epsilons." << endl << endl;
 
     string name[2];
+    cin.ignore();
     cout << "First little epsilon, what is your name? ";
     getline(cin, name[0]);
     cout << "Second little epsilon, what is your name? ";
@@ -130,13 +146,13 @@ void subSquare()
 int win[8][3] =
 {
     {0, 1, 2},
-    {4, 5, 6},
-    {7, 8, 9},
-    {0, 4, 7},
-    {1, 5, 8},
-    {2, 6, 9},
-    {0, 5, 9},
-    {7, 5, 2}
+    {3, 4, 5},
+    {6, 7, 8},
+    {0, 3, 6},
+    {1, 4, 7},
+    {2, 5, 8},
+    {0, 4, 8},
+    {6, 4, 2}
 };
 
 char choices[9] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J'};
@@ -144,9 +160,9 @@ char choices[9] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J'};
 void magicSquare()
 {
     string name;
+    cin.ignore();
     cout << "What is your name, little epsilon? ";
     getline(cin, name);
-    cout << "Instructions go here" << endl;
     int level;
     do
     {
@@ -155,7 +171,14 @@ void magicSquare()
     while(level < 1);
     int magic = 3 * randRange(5*level, 5*(level+1)); //Random number from 15 * level to 15 * level + 15, that is divisible by 3
     int width = ceil(log10(magic)); //Guaranteed to be at least as many as the digits in magic
-    cout << magic << endl;
+    cout << "In this game, you try and make the rows, columns, and diagonals add up to" << endl
+        << "a special number called the magic constat. Also, you may not use the same" << endl
+        << "number more than once. The magic constant for you is \"" << magic << ".\" Change the boxes" << endl
+        << "so that each row, column, and diagonal, add up to \"" << magic << ".\" It will then quiz you" << endl
+        << "to see if you are right. Answer the addition problems honestly." << endl
+        ;
+    cout << endl << "Do not worry, little epsilon. I, paul, will walk you through it." << endl << endl;
+
     int square[9] = {0};
     while(true)
     {
@@ -211,18 +234,34 @@ void magicSquare()
                 if (dup) break;
             }
             if (dup) continue;
+            bool won = true;
             for (int i=0; i < 8; i++)
             {
+                int s;
                 do
                 {
                     cout << "What is " << square[win[i][0]] << " + " << square[win[i][1]] << " + " << square[win[i][2]] << "? ";
-                    int s = getInt();
-                    cout << s << endl;
+                    s = getInt(name + ": ");
+                    if (s != (square[win[i][0]] + square[win[i][1]] + square[win[i][2]]))
+                    {
+                        cout << "Sorry, that is not right. Try again." << endl;
+                        cout << "What is " << square[win[i][0]] << " + " << square[win[i][1]] << " + " << square[win[i][2]] << "? ";
+                    }
+                    else break;
                 }
                 while(true);
+                cout << "Right!" << endl;
+                if (s!=magic)
+                {
+                    cout << s << " is not the magic constant, " << magic << ", though. You will have to change something." << endl;
+                    won = false;
+                    break;
+                }
             }
+            if (won) break;
         }
     }
+    cout << "Since these are all the magic constant, you have won " << name << "!" << endl;
 }
 
 int randRange(int min, int max)
