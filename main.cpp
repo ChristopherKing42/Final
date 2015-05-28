@@ -34,9 +34,9 @@ int main()
     do
     {
         cout << "Which game will you play, little epsilon?" << endl;
-        cout << "\tA) Magic Square (One Player, Addition)" << endl
-             << "\tB) Subtract a Square (Two Player, Multiplicaton and Subtraction)" << endl
-             << "\tC) Most Divisions (One Players, Division)" << endl
+        cout << "\tA) Arcade: Most Divisions (1 Player, Division)" << endl
+             << "\tB) Versus: Subtract a Square (2 Players, Multiplicaton, Subtraction)" << endl
+             << "\tC) Puzzle: Magic Square (1 Player, Addition)" << endl
              << "\tD) Quit" << endl
              //<< "\tE) Summon Programmer" << endl
              ;
@@ -45,13 +45,13 @@ int main()
         option = options[0];
         switch(option)
         {
-        case 'A':
+        case 'C':
             magicSquare();
             break;
         case 'B':
             subSquare();
             break;
-        case 'C':
+        case 'A':
             division();
             break;
         case 'D':
@@ -69,13 +69,14 @@ void subSquare()
          << "\tThis game is called \"subtract a square.\" The goal of the game" << endl
          << "\tis to move last. There is a certain number, called the total." << endl
          << "\tI, Paul, shall select the total. Then, little epsilons, one of" << endl
-         << "\tyou shall select a number, called the move.You can select any number" << endl
+         << "\tyou shall select a number, called the move. You can select any number" << endl
          << "\tbesides 0 (and no decimals or fractions.) You will then" << endl
          << "\tmultiply the move by itself, making a square number. Note: If your" << endl
          << "\tsquare is greater than the total, then you will have to pick a new" << endl
          << "\t move. You will then subtract the total by the square. You will take" << endl
-         << "\tturns doing this. Whoever gets it to 0 will win!" << endl << endl
-         << "\tDon't worry, I will walk you through the game, little epsilons." << endl << endl;
+         << "\tturns doing this. Whoever gets it to 0 will win!" << endl
+         << "\tIf you want to quit, type 0." << endl
+         << endl << "\tDon't worry, I will walk you through the game, little epsilons." << endl << endl;
 
     string name[2]; //Store the names in an array
     cin.ignore();
@@ -102,9 +103,11 @@ void subSquare()
             move = getInt(name[turn] + ": ");
             if (move == 0)
             {
-                cout << "Sorry " << name[turn] << ", 0 is the only move that is never allowed." << endl;
-                cout << "Pick another." << endl;
-                continue;
+                cout << "Are you sure you want to quit (y/n)? ";
+                string ans;
+                cin >> ans;
+                if (ans[0] == 'y') return;
+                else continue;
             }
             if (move * move > total)
             {
@@ -174,12 +177,17 @@ void magicSquare()
     while(level < 1);
     int magic = 3 * randRange(5*level, 5*(level+1)); //Random number from 15 * level to 15 * level + 15, that is divisible by 3
     int width = ceil(log10(magic)); //Guaranteed to be at least as many as the digits in magic, for formatting purposes
-    cout << "In this game, you try and make the rows, columns, and diagonals add up to" << endl
-         << "a special number called the magic constat. Also, you may not use the same" << endl
-         << "number more than once. The magic constant for you is \"" << magic << ".\" Change the boxes" << endl
-         << "so that each row, column, and diagonal, add up to \"" << magic << ".\" It will then quiz you" << endl
-         << "to see if you are right. Answer the addition problems honestly." << endl
-         ;
+    cout << "Instructions: " << endl
+        << "\tIn this game, you try and make the rows," << endl
+        << "\tcolumns, and diagonals add up to" << endl
+        << "\ta special number called the magic constat." << endl
+        << "\tAlso, you may not use the same" << endl
+        << "\tnumber more than once. The magic constant" << endl
+        << "\tfor you is \"" << magic << ".\" Change the boxes" << endl
+        << "\tso that each row, column, and diagonal," << endl
+        << "\tadd up to \"" << magic << ".\" It will then quiz you" << endl
+        << "\tto see if you are right. Answer the addition problems honestly." << endl
+        ;
     cout << endl << "Do not worry, little epsilon. I, paul, will walk you through it." << endl << endl;
 
     int square[9] = {0};
@@ -198,7 +206,7 @@ void magicSquare()
                 cout << "|";
             }
         }
-        cout << name << ", which square would you like to change? (or Z to check if you are right) ";
+        cout << "Which square would you like to change? (Z:Check square, 0:Quit) ";
         string moves;
         cin >> moves;
         char movec = moves[0];
@@ -209,7 +217,7 @@ void magicSquare()
                 int n;
                 do
                 {
-                    n = getInt("What would you like to change that box to? ");
+                    n = getInt(name + ", what would you like to change that box to? ");
                     if (n < 0 || n > magic) //This also makes sure cells don't violate cell width
                     {
                         cout << "That can not possibly be right; try again." << endl;
@@ -265,12 +273,29 @@ void magicSquare()
             }
             if (won) break;
         }
+        if (movec==0)
+        {
+            cout << "Are you sure you want to quit (y/n)? ";
+            string ans;
+            cin >> ans;
+            if (ans[0] == 'y') break;
+        }
     }
-    cout << "Since these are all the magic constant, you have won " << name << "!" << endl;
+    cout << "Since these are all the magic constant, you have won, " << name << "!" << endl;
 }
 
 void division()
 {
+    cout << endl;
+    cout << "Instructions" << endl
+        << "\tIn this game, you are trying to get as many points as you can." << endl
+        << "\tI, paul, shall pick a number called the total. Each turn, you" << endl
+        << "\tshall pick a number, called the move. The total must be divisible" << endl
+        << "\tby the move. You will then divide the total by the move. Each turn," << endl
+        << "\tyou get one point. You may not divide by 1, as this would allow you" << endl
+        << "\tto go on forever. No decimals, fractions, or negatives either." << endl
+        << "\tWhen you get to one, the game is over. Type 0 to quit." << endl
+        << endl << "\tTry and get the high score, little epsilon!" << endl << endl;
     string name;
     cin.ignore();
     cout << "What is your name, little epsilon? ";
@@ -282,7 +307,6 @@ void division()
     }
     while(level < 1);
     int total = randRange(pow(10, level), pow(10, level+1));
-    cout << "Instructions here" << endl;
     int score = 0;
     while(total!=1)
     {
@@ -292,9 +316,11 @@ void division()
         int div = getInt(name + ": ");
         if (div == 0)
         {
-            cout << "You can never divide by 0." << endl;
-            cout << "Try again." << endl;
-            continue;
+            cout << "Are you sure you want to quit (y/n)? ";
+            string ans;
+            cin >> ans;
+            if (ans[0] == 'y') return;
+            else continue;
         }
         if (div == 1)
         {
