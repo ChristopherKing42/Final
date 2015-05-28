@@ -3,6 +3,7 @@
 #include <ctime>
 #include <cmath>
 #include <iomanip>
+#include <fstream>
 
 using namespace std;
 
@@ -353,8 +354,35 @@ void division()
         total = newTotal;
         score++;
     }
-    cout << "That is it. Your score is " << score << "." << endl;
-    cout << "That is GREAT. Try to beat it, or have your friends try to beat it." << endl;
+    cout << "That is it. Your score is " << score << ", " << name << "." << endl;
+    ifstream file(to_string(level), ios::in);
+    int highscore;
+    bool newscore = false;
+    if (file.is_open())
+    {
+        file >> highscore;
+        cout << "The high score for level " << level << " was " << highscore << endl;
+        if (highscore >= score)
+        {
+            cout << "Sorry, you did not beat it this time." << endl;
+        }
+        else
+        {
+            cout << "You got the high score!" << endl;
+        }
+        file.close();
+    }
+    else
+    {
+        cout << "There was no previous high score for level " << level << ", so the high score is yours!" << endl;
+        newscore=true;
+    }
+    if (newscore)
+    {
+        ofstream newfile(to_string(level), ios::out);
+        newfile << score;
+        newfile.close();
+    }
 }
 
 int randRange(int min, int max)
