@@ -207,6 +207,7 @@ void magicSquare()
                 cout << "|";
             }
         }
+        cout << "Magic Constant: " << magic << endl << endl;
         cout << "Which square would you like to change? (Z:Check square, 0:Quit) ";
         string moves;
         cin >> moves;
@@ -274,7 +275,7 @@ void magicSquare()
             }
             if (won) break;
         }
-        if (movec==0)
+        if (movec=='0')
         {
             cout << "Are you sure you want to quit (y/n)? ";
             string ans;
